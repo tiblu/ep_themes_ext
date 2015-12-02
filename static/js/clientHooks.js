@@ -3,7 +3,7 @@
 /**
  * Client-side hooks
  *
- * NOTE1: Assumes "addEditorCSS" supports absolute urls to resources - https://github.com/tiblu/etherpad-lite/commit/ad2ea924b5c039ebb8df9dd97d1f5ecaeb02fb14
+ * NOTE1: Assumes an EP version where "addEditorCSS" supports absolute urls to resources - https://github.com/ether/etherpad-lite/pull/2850
  * NOTE2: Using 2 different hooks to add styles to minimize style flicker caused by async loading of stylesheets.
  * If I loaded all in "aceInitialized", style flicker would occur as the CSS is first added to the DOM after page is rendered thus.
  * The "addEditorCSS" runs, it builds head elements for the iframes, so if I add CSS there, the load starts as early as possible and reduces chances style flicker.
@@ -29,7 +29,7 @@ exports.aceEditorCSS = function (hook_name) {
 };
 
 /**
- * aceInitialized
+ * aceInitialized hook
  *
  * Adds style tags to the Etherpad main frame that are specified in the config.
  *
@@ -41,12 +41,36 @@ exports.aceEditorCSS = function (hook_name) {
  */
 
 exports.aceInitialized = function (hook_name, args, cb) {
+    _applyStyles([$(document)]); // $frameAceOuter, $frameAceInner added in "aceEditorCSS" hook assuming it supports absolute paths - https://github.com/ether/etherpad-lite/pull/2850
+};
+
+/**
+ * postTimesliderInit hook
+ *
+ * Adds stylesheets to the timeline view
+ */
+exports.postTimesliderInit = function () {
+    // HACKISH: There is no good event which is fired when timeslider is done loading the clientVars global variable which we need to get plugin config.
+    // SO, we wait for the clientVars global variable to be defined and take it from there.
+    var watchForClientVars = setInterval(function () {
+        if (!Object.keys(clientVars).length) {
+            return;
+        }
+        clearInterval(watchForClientVars);
+        _applyStyles([$(document)]);
+    }, 10);
+};
+
+/**
+ * Apply stylesheets to defined target JQuery elements
+ *
+ * @param {Array} targets Array of JQuery objects to which stylesheets are added to their <head> element
+ *
+ * @private
+ */
+var _applyStyles = function (targets) {
     var styles = _getStyles();
-    if (!styles) return cb();
-
-    var $main = $(document);
-
-    var targets = [$main]; // $frameAceOuter, $frameAceInner added in "aceEditorCSS" hook assuming it supports absolute paths - https://github.com/tiblu/etherpad-lite/commit/ad2ea924b5c039ebb8df9dd97d1f5ecaeb02fb14
+    if (!styles) return;
 
     var stylesheetTags = [];
     styles.forEach(function (src) {
@@ -56,6 +80,7 @@ exports.aceInitialized = function (hook_name, args, cb) {
     targets.forEach(function ($target) {
         $target = $target.find('head');
         stylesheetTags.forEach(function (tag) {
+            //console.log('Pushing ', tag, 'to', $target);
             $target.append(tag);
         });
     });
@@ -67,11 +92,21 @@ exports.aceInitialized = function (hook_name, args, cb) {
  * @returns Array Array of stylesheet urls
  */
 var _getStyles = function () {
+    console.log('_getStyles clientVars', clientVars);
     var settings = clientVars.ep_themes_ext;
     var theme = 'default';
 
+    var url = window.location.href;
+
+    // For timeslider page - there are no embed parameters if you navigate to the timeslider view from the pad
+    if (url.match(/\/timeslider/)) {
+        if (document.referrer) {
+            url = document.referrer;
+        }
+    }
+
     // See if theme is specified by embed "theme" parameter, override the default
-    var matches = window.location.href.match(/theme=([^=?&\s]*)/);
+    var matches = url.match(/theme=([^=?&\s]*)/);
     if (matches && matches.length >= 2) {
         theme = matches[1];
     }

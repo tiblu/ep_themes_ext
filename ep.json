@@ -7,7 +7,8 @@
             },
             "client_hooks": {
                 "aceEditorCSS": "ep_themes_ext/static/js/clientHooks:aceEditorCSS",
-                "aceInitialized": "ep_themes_ext/static/js/clientHooks:aceInitialized"
+                "aceInitialized": "ep_themes_ext/static/js/clientHooks:aceInitialized",
+                "postTimesliderInit": "ep_themes_ext/static/js/clientHooks:postTimesliderInit"
             }
         }
     ]

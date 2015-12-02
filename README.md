@@ -32,4 +32,9 @@ When embedding EP, use ``theme`` parameter to choose the theme. For example ``ht
 # Credits
 
 * [CitizenOS](https://citizenos.com) for funding the development 
-* Implementation inspired by [https://github.com/JohnMcLear/ep_themes](https://github.com/JohnMcLear/ep_themes) - if you just want color scheme changes, use that instead.
+* Implementation inspired by [https://github.com/JohnMcLear/ep_themes]() - if you just want color scheme changes, use that instead.
+
+
+# TODO
+
+* We could inject the styles on ``eejsBlock_styles`` event ([http://etherpad.org/doc/v1.5.7/#index_eejsblock_name]())? This would make the loads 100% without style flicker. **BUT** how would we get the embed request parameters at this point? If we can make it, then we should call ``eejsBlock_styles`` from all templates and use that single event to add styles. Would there be other issues?
