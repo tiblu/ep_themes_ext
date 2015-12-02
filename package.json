@@ -1,0 +1,13 @@
+{
+    "name": "ep_themes_ext",
+    "version": "0.0.1",
+    "description": "An Etherpad Lite plugin that allows you to load external CSS stylesheets to change the layout.",
+    "author": {
+        "name": "Tiblu"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tiblu/ep_themes_ext.git"
+    },
+    "readmeFilename": "README.md"
+}
