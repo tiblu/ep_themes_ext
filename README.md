@@ -4,7 +4,7 @@ An Etherpad Lite plugin that allows you to load external CSS stylesheets to chan
 
 # Requirements
 
-Requires EP version > 1.5.7 that is ``aceEditorCSS`` hook patch to be merged with Etherpad - https://github.com/tiblu/etherpad-lite/commit/ad2ea924b5c039ebb8df9dd97d1f5ecaeb02fb14
+Requires EP version > 1.5.7 that is ``aceEditorCSS`` hook [patch](https://github.com/tiblu/etherpad-lite/commit/ad2ea924b5c039ebb8df9dd97d1f5ecaeb02fb14) to be merged with Etherpad
 
 # Install
 
@@ -31,5 +31,5 @@ When embedding EP, use ``theme`` parameter to choose the theme. For example ``ht
 
 # Credits
 
-* CitizenOS for funding the development - https://citizenos.com/
-* Implementation inspired by https://github.com/JohnMcLear/ep_themes - if you just want color scheme changes, use that instead.
+* [CitizenOS](https://citizenos.com) for funding the development 
+* Implementation inspired by [https://github.com/JohnMcLear/ep_themes](https://github.com/JohnMcLear/ep_themes) - if you just want color scheme changes, use that instead.
