@@ -4,8 +4,7 @@ An Etherpad Lite plugin that allows you to load external CSS stylesheets to chan
 
 # Requirements
 
-Requires ``aceEditorCSS`` hook patch to be merged with Etherpad - https://github.com/tiblu/etherpad-lite/commit/ad2ea924b5c039ebb8df9dd97d1f5ecaeb02fb14
-Hope it makes it to Etherpad release version.
+Requires EP version > 1.5.7 that is ``aceEditorCSS`` hook patch to be merged with Etherpad - https://github.com/tiblu/etherpad-lite/commit/ad2ea924b5c039ebb8df9dd97d1f5ecaeb02fb14
 
 # Install
 
