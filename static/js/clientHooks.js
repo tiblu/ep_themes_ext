@@ -13,6 +13,8 @@
  * @see {@link http://etherpad.org/doc/v1.5.7/#index_client_side_hooks}
  */
 
+var PREF_COOKIE_KEY = 'epThemesExtTheme';
+
 /**
  * aceEditorCSS hook
  *
@@ -92,23 +94,20 @@ var _applyStyles = function (targets) {
  * @returns Array Array of stylesheet urls
  */
 var _getStyles = function () {
-    console.log('_getStyles clientVars', clientVars);
     var settings = clientVars.ep_themes_ext;
     var theme = 'default';
 
     var url = window.location.href;
-
-    // For timeslider page - there are no embed parameters if you navigate to the timeslider view from the pad
-    if (url.match(/\/timeslider/)) {
-        if (document.referrer) {
-            url = document.referrer;
-        }
-    }
+    var padCookie = require('ep_etherpad-lite/static/js/pad_cookie').padcookie;
+    var themeCookie = padCookie.getPref(PREF_COOKIE_KEY);
 
     // See if theme is specified by embed "theme" parameter, override the default
     var matches = url.match(/theme=([^=?&\s]*)/);
     if (matches && matches.length >= 2) {
         theme = matches[1];
+        padCookie.setPref(PREF_COOKIE_KEY, theme);
+    } else if (themeCookie) {
+        theme = themeCookie;
     }
 
     if (!settings || !settings[theme] || !settings[theme].length) {
