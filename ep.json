@@ -2,6 +2,7 @@
     "parts": [
         {
             "name": "ep_themes_ext",
+            "pre": ["ep_inline_toolbar", "ep_*"],
             "hooks": {
                 "clientVars": "ep_themes_ext/serverHooks:clientVars"
             },
